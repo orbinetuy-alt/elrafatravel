@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import "./globals.css";
+import { NextIntlClientProvider } from 'next-intl'
+import { getLocale, getMessages } from 'next-intl/server'
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -10,18 +12,23 @@ const montserrat = Montserrat({
 
 export const metadata: Metadata = {
   title: "El Rafa Travel",
-  description: "Paseos turísticos en tuk tuk por Lisboa",
+  description: "Tuk tuk tours in Lisbon | Paseos en tuk tuk por Lisboa",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getLocale()
+  const messages = await getMessages()
+
   return (
-    <html lang="es">
+    <html lang={locale}>
       <body className={`${montserrat.variable} antialiased`}>
-        {children}
+        <NextIntlClientProvider messages={messages}>
+          {children}
+        </NextIntlClientProvider>
       </body>
     </html>
   );

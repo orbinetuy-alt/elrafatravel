@@ -1,0 +1,98 @@
+{
+  "Nav": {
+    "home": "Home",
+    "login": "Sign in",
+    "register": "Sign up",
+    "logout": "Sign out",
+    "logout_mobile": "Sign out"
+  },
+  "Home": {
+    "subtitle": "Discover Lisbon from a tuk tuk. Choose your tour, book your spot, and live a unique experience.",
+    "cta": "See available tours",
+    "tours_title": "Our tours",
+    "tours_count_one": "{count} tour available",
+    "tours_count_other": "{count} tours available",
+    "from": "From",
+    "no_tours": "No tours available at this time. Come back soon.",
+    "my_bookings": "My bookings",
+    "no_bookings": "You don't have any active bookings yet."
+  },
+  "Booking": {
+    "pending": "Pending",
+    "accepted": "Accepted",
+    "rejected": "Rejected",
+    "cancelled": "Cancelled",
+    "paid_full": "Fully paid",
+    "final_due": "Final payment pending",
+    "senia_paid": "Deposit paid ✓",
+    "senia_due": "Deposit payment due",
+    "pay_now": "Pay deposit",
+    "loading": "Loading...",
+    "cancel_title": "Cancel this booking?",
+    "cancel_desc": "This action cannot be undone. The booking will be moved to cancelled status.",
+    "back": "Back",
+    "confirm_cancel": "Confirm cancellation",
+    "cancelling": "Cancelling...",
+    "edit_title": "Edit booking",
+    "persons": "Persons",
+    "phone": "Phone",
+    "notes": "Notes",
+    "save": "Save changes",
+    "saving": "Saving...",
+    "cancel_edit": "Cancel"
+  },
+  "Toast": {
+    "booking_ok": "Booking request sent!",
+    "senia_ok": "Deposit paid! We'll see you on the day of the tour.",
+    "final_ok": "Final payment completed. Thank you so much!",
+    "senia_cancel": "Deposit payment was cancelled.",
+    "final_cancel": "Final payment was cancelled."
+  },
+  "PaseoDetail": {
+    "description": "Description",
+    "duration_options": "Duration options",
+    "min": "min",
+    "availability": "Availability",
+    "book": "Book now",
+    "login_to_book": "Sign in to book"
+  },
+  "ReservaForm": {
+    "select_date": "Select a date",
+    "select_date_sub": "Choose an available day to continue with your booking",
+    "booking_request": "Booking request",
+    "duration": "Tour duration",
+    "selected_label": "Selected",
+    "full_name": "Full name",
+    "email": "Email",
+    "date_selected": "Selected date",
+    "schedule": "Time",
+    "persons": "Number of persons",
+    "phone": "Phone",
+    "notes": "Additional notes",
+    "notes_optional": "(optional)",
+    "notes_placeholder": "Any additional details?",
+    "submit": "Send booking request",
+    "submitting": "Sending..."
+  },
+  "Login": {
+    "subtitle": "Sign in to your account",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Sign in",
+    "submitting": "Signing in...",
+    "no_account": "Don't have an account?",
+    "register_link": "Sign up"
+  },
+  "Register": {
+    "subtitle": "Create your account",
+    "full_name": "Full name",
+    "email": "Email",
+    "password": "Password",
+    "confirm_password": "Confirm password",
+    "submit": "Create account",
+    "submitting": "Creating account...",
+    "have_account": "Already have an account?",
+    "login_link": "Sign in",
+    "passwords_mismatch": "Passwords do not match."
+  }
+}

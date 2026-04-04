@@ -5,6 +5,7 @@ import Navbar from '@/components/Navbar'
 import CalendarioMes from '@/components/CalendarioMes'
 import GaleriaFotos from '@/components/GaleriaFotos'
 import { Clock, Euro, ArrowRight } from 'lucide-react'
+import { getTranslations } from 'next-intl/server'
 
 export const dynamic = 'force-dynamic'
 
@@ -32,6 +33,8 @@ export default async function PaseoDetallePage({
   ])
 
   if (!paseo) notFound()
+
+  const t = await getTranslations('PaseoDetail')
 
   // Galería: prioriza paseo_imagenes, fallback a imagen_url del paseo
   const gallery =
@@ -62,7 +65,7 @@ export default async function PaseoDetallePage({
             {paseo.descripcion && (
               <div className="bg-white rounded-2xl border border-beige-dark p-6">
                 <h2 className="text-primary font-bold text-xs uppercase tracking-wider mb-3">
-                  Descripción
+                  {t('description')}
                 </h2>
                 <p className="text-gray-600 text-sm leading-relaxed">{paseo.descripcion}</p>
               </div>
@@ -71,7 +74,7 @@ export default async function PaseoDetallePage({
             {duraciones && duraciones.length > 0 && (
               <div className="bg-white rounded-2xl border border-beige-dark p-6">
                 <h2 className="text-primary font-bold text-xs uppercase tracking-wider mb-3">
-                  Opciones de duración
+                  {t('duration_options')}
                 </h2>
                 <div className="divide-y divide-beige-dark">
                   {duraciones.map(d => (
@@ -79,7 +82,7 @@ export default async function PaseoDetallePage({
                       <span className="flex items-center gap-2 text-sm text-gray-700">
                         <Clock size={14} className="text-primary-light" />
                         {d.etiqueta}
-                        <span className="text-xs text-gray-400">({d.duracion_minutos} min)</span>
+                        <span className="text-xs text-gray-400">({d.duracion_minutos} {t('min')})</span>
                       </span>
                       <span className="flex items-center gap-1 text-secondary font-bold text-sm">
                         <Euro size={13} />
@@ -95,7 +98,7 @@ export default async function PaseoDetallePage({
           {/* Columna derecha: calendario */}
           <div className="flex flex-col gap-4">
             <h2 className="text-primary font-bold text-xs uppercase tracking-wider">
-              Disponibilidad
+              {t('availability')}
             </h2>
             <CalendarioMes diasBloqueados={fechasBloqueadas} />
           </div>
@@ -111,7 +114,7 @@ export default async function PaseoDetallePage({
             }
             className="inline-flex items-center gap-2 bg-primary text-white font-bold px-12 py-4 rounded-xl hover:bg-primary-light transition uppercase tracking-wider text-sm"
           >
-            Reservar
+            {user ? t('book') : t('login_to_book')}
             <ArrowRight size={18} />
           </Link>
         </div>

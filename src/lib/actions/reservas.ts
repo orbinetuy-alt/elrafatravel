@@ -278,3 +278,82 @@ export async function editarReserva(reservaId: string, prevState: unknown, formD
   revalidatePath('/')
   return { ok: true }
 }
+
+export async function pagarSenia(reservaId: string) {
+  const supabase = await createClient()
+  const adminClient = createAdminClient()
+
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { error: 'No autorizado.' }
+
+  const { data: reserva } = await adminClient
+    .from('reservas')
+    .select(`
+      id, num_personas,
+      paseos ( nombre ),
+      profiles ( nombre, email ),
+      disponibilidad ( fecha, hora_inicio ),
+      paseo_duraciones ( etiqueta, duracion_minutos, precio )
+    `)
+    .eq('id', reservaId)
+    .eq('cliente_id', user.id)
+    .eq('estado', 'aceptada')
+    .single()
+
+  if (!reserva) return { error: 'Reserva no encontrada o no autorizada.' }
+
+  const { data: pagosExistentes } = await adminClient
+    .from('pagos')
+    .select('id, tipo, estado')
+    .eq('reserva_id', reservaId)
+
+  const seniaExistente = pagosExistentes?.find(p => p.tipo === 'senia')
+  if (seniaExistente?.estado === 'completado') return { error: 'La seña ya fue pagada.' }
+
+  const perfil = reserva.profiles as unknown as { nombre: string; email: string } | null
+  const paseo = reserva.paseos as unknown as { nombre: string } | null
+  const disp = reserva.disponibilidad as unknown as { fecha: string; hora_inicio: string } | null
+  const dur = reserva.paseo_duraciones as unknown as { etiqueta: string; duracion_minutos: number; precio: number } | null
+
+  if (!dur || !disp || !perfil) return { error: 'Faltan datos de la reserva.' }
+
+  const [anio, mes, dia] = disp.fecha.split('-')
+  const fechaFormateada = `${dia} de ${MESES[parseInt(mes) - 1]} de ${anio}`
+  const hora = disp.hora_inicio.slice(0, 5)
+  const precioSenia = dur.precio / 2
+
+  const session = await stripe.checkout.sessions.create({
+    mode: 'payment',
+    payment_method_types: ['card'],
+    line_items: [{
+      price_data: {
+        currency: 'eur',
+        unit_amount: Math.round(precioSenia * 100),
+        product_data: {
+          name: `Seña — ${paseo?.nombre ?? 'Paseo'}`,
+          description: `50% del paseo del ${fechaFormateada} a las ${hora} (${dur.etiqueta})`,
+        },
+      },
+      quantity: 1,
+    }],
+    customer_email: perfil.email,
+    success_url: `${APP_URL}/?pago=senia_ok`,
+    cancel_url: `${APP_URL}/?pago=senia_cancel`,
+    metadata: { reserva_id: reservaId, tipo: 'senia' },
+  })
+
+  if (seniaExistente) {
+    await adminClient.from('pagos').update({ stripe_checkout_session_id: session.id }).eq('id', seniaExistente.id)
+  } else {
+    await adminClient.from('pagos').insert({
+      reserva_id: reservaId,
+      stripe_checkout_session_id: session.id,
+      monto: precioSenia,
+      moneda: 'eur',
+      estado: 'pendiente',
+      tipo: 'senia',
+    })
+  }
+
+  return { url: session.url }
+}

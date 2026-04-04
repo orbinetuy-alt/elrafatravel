@@ -4,10 +4,12 @@ import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { registroCliente } from '@/lib/actions/auth'
+import { useTranslations } from 'next-intl'
 
 export default function RegistroPage() {
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
+  const t = useTranslations('Register')
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -19,7 +21,7 @@ export default function RegistroPage() {
     const confirm = formData.get('confirm') as string
 
     if (password !== confirm) {
-      setError('Las contraseñas no coinciden.')
+      setError(t('passwords_mismatch'))
       setLoading(false)
       return
     }
@@ -39,7 +41,7 @@ export default function RegistroPage() {
         <div className="flex flex-col items-center mb-8">
           <Image src="/logo.png" alt="El Rafa Travel" width={120} height={120} className="mb-4" />
           <h1 className="text-2xl font-bold text-primary uppercase tracking-widest">El Rafa Travel</h1>
-          <p className="text-primary-light text-sm mt-1">Crea tu cuenta</p>
+          <p className="text-primary-light text-sm mt-1">{t('subtitle')}</p>
         </div>
 
         {/* Card */}
@@ -48,7 +50,7 @@ export default function RegistroPage() {
 
             <div>
               <label htmlFor="nombre" className="block text-sm font-semibold text-primary mb-1">
-                Nombre completo
+                {t('full_name')}
               </label>
               <input
                 id="nombre"
@@ -76,7 +78,7 @@ export default function RegistroPage() {
 
             <div>
               <label htmlFor="password" className="block text-sm font-semibold text-primary mb-1">
-                Contraseña
+                {t('password')}
               </label>
               <input
                 id="password"
@@ -91,7 +93,7 @@ export default function RegistroPage() {
 
             <div>
               <label htmlFor="confirm" className="block text-sm font-semibold text-primary mb-1">
-                Confirmar contraseña
+                {t('confirm_password')}
               </label>
               <input
                 id="confirm"
@@ -112,14 +114,14 @@ export default function RegistroPage() {
               disabled={loading}
               className="w-full bg-primary text-white font-bold py-3 rounded-lg uppercase tracking-wider hover:bg-primary-light transition disabled:opacity-60"
             >
-              {loading ? 'Creando cuenta...' : 'Crear cuenta'}
+              {loading ? t('submitting') : t('submit')}
             </button>
           </form>
 
           <p className="text-center text-sm text-gray-500 mt-6">
-            ¿Ya tienes cuenta?{' '}
+            {t('have_account')}{' '}
             <Link href="/login" className="text-secondary font-semibold hover:underline">
-              Inicia sesión
+              {t('login_link')}
             </Link>
           </p>
         </div>

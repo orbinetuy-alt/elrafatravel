@@ -4,6 +4,7 @@ import { useState, useActionState } from 'react'
 import { CalendarDays, Clock, Euro } from 'lucide-react'
 import CalendarioMes from '@/components/CalendarioMes'
 import { crearReserva } from '@/lib/actions/reservas'
+import { useTranslations } from 'next-intl'
 
 interface Duracion {
   id: string
@@ -40,6 +41,7 @@ export default function FechaReservaClient({
 }: FechaReservaClientProps) {
   const [fechaSeleccionada, setFechaSeleccionada] = useState<string | null>(null)
   const [duracionId, setDuracionId] = useState<string>(duraciones[0]?.id ?? '')
+  const t = useTranslations('ReservaForm')
 
   const crearReservaConId = crearReserva.bind(null, paseoId)
   const [estado, formAction, isPending] = useActionState(crearReservaConId, null)
@@ -50,10 +52,10 @@ export default function FechaReservaClient({
     <div className="flex flex-col gap-8">
       <div>
         <h1 className="text-xl font-bold text-primary uppercase tracking-widest mb-1">
-          Seleccioná la fecha
+          {t('select_date')}
         </h1>
         <p className="text-gray-400 text-sm">
-          Elegí un día disponible para continuar con tu reserva
+          {t('select_date_sub')}
         </p>
       </div>
 
@@ -72,7 +74,7 @@ export default function FechaReservaClient({
             </div>
             <div>
               <h2 className="text-primary font-bold text-base uppercase tracking-wider">
-                Solicitud de reserva
+                {t('booking_request')}
               </h2>
               <p className="text-gray-400 text-xs">{formatearFecha(fechaSeleccionada)}</p>
             </div>
@@ -88,7 +90,7 @@ export default function FechaReservaClient({
             {duraciones.length > 0 && (
               <div>
                 <label className="block text-sm font-semibold text-primary mb-2">
-                  Duración del paseo <span className="text-red-400">*</span>
+                  {t('duration')} <span className="text-red-400">*</span>
                 </label>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {duraciones.map(d => (
@@ -116,7 +118,7 @@ export default function FechaReservaClient({
                 </div>
                 {duracionSeleccionada && (
                   <p className="text-xs text-gray-400 mt-1.5">
-                    Seleccionado: {duracionSeleccionada.etiqueta} · €{Number(duracionSeleccionada.precio).toFixed(2)}
+                    {t('selected_label')}: {duracionSeleccionada.etiqueta} · €{Number(duracionSeleccionada.precio).toFixed(2)}
                   </p>
                 )}
               </div>
@@ -125,7 +127,7 @@ export default function FechaReservaClient({
             {/* Nombre (solo lectura) */}
             <div>
               <label className="block text-sm font-semibold text-primary mb-1">
-                Nombre completo
+                {t('full_name')}
               </label>
               <input
                 type="text"
@@ -151,7 +153,7 @@ export default function FechaReservaClient({
             {/* Fecha (solo lectura) */}
             <div>
               <label className="block text-sm font-semibold text-primary mb-1">
-                Fecha seleccionada
+                {t('date_selected')}
               </label>
               <input
                 type="text"
@@ -164,7 +166,7 @@ export default function FechaReservaClient({
             {/* Horario */}
             <div>
               <label className="block text-sm font-semibold text-primary mb-1">
-                Horario
+                {t('schedule')}
               </label>
               <input
                 type="time"
@@ -177,7 +179,7 @@ export default function FechaReservaClient({
             {/* Cantidad de personas */}
             <div>
               <label className="block text-sm font-semibold text-primary mb-1">
-                Cantidad de personas
+                {t('persons')}
               </label>
               <input
                 type="number"
@@ -193,7 +195,7 @@ export default function FechaReservaClient({
             {/* Teléfono */}
             <div>
               <label className="block text-sm font-semibold text-primary mb-1">
-                Teléfono
+                {t('phone')}
               </label>
               <input
                 type="tel"
@@ -207,13 +209,13 @@ export default function FechaReservaClient({
             {/* Comentario */}
             <div>
               <label className="block text-sm font-semibold text-primary mb-1">
-                Comentario{' '}
-                <span className="text-gray-400 font-normal">(opcional)</span>
+                {t('notes')}{' '}
+                <span className="text-gray-400 font-normal">{t('notes_optional')}</span>
               </label>
               <textarea
                 name="notas"
                 rows={3}
-                placeholder="¿Algún detalle adicional?"
+                placeholder={t('notes_placeholder')}
                 className="w-full border border-beige-dark rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary transition resize-none"
               />
             </div>
@@ -230,7 +232,7 @@ export default function FechaReservaClient({
               disabled={isPending}
               className="w-full bg-primary text-white font-bold py-3 rounded-lg uppercase tracking-wider hover:bg-primary-light transition disabled:opacity-60"
             >
-              {isPending ? 'Enviando...' : 'Enviar solicitud'}
+              {isPending ? t('submitting') : t('submit')}
             </button>
           </form>
         </div>

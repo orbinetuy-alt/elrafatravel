@@ -1,0 +1,98 @@
+{
+  "Nav": {
+    "home": "Inicio",
+    "login": "Iniciar sesión",
+    "register": "Registrarse",
+    "logout": "Salir",
+    "logout_mobile": "Cerrar sesión"
+  },
+  "Home": {
+    "subtitle": "Descubrí Lisboa desde un tuk tuk. Elegí tu paseo, reservá tu lugar y viví una experiencia única.",
+    "cta": "Ver paseos disponibles",
+    "tours_title": "Nuestros paseos",
+    "tours_count_one": "{count} paseo disponible",
+    "tours_count_other": "{count} paseos disponibles",
+    "from": "Desde",
+    "no_tours": "No hay paseos disponibles en este momento. Volvé pronto.",
+    "my_bookings": "Mis reservas",
+    "no_bookings": "Todavía no tienes solicitudes activas."
+  },
+  "Booking": {
+    "pending": "Pendiente",
+    "accepted": "Aceptada",
+    "rejected": "Rechazada",
+    "cancelled": "Cancelada",
+    "paid_full": "Pagado completo",
+    "final_due": "Pago final pendiente",
+    "senia_paid": "Seña pagada ✓",
+    "senia_due": "Seña pendiente de pago",
+    "pay_now": "Pagar seña",
+    "loading": "Cargando...",
+    "cancel_title": "¿Cancelar esta reserva?",
+    "cancel_desc": "Esta acción no se puede deshacer. La reserva pasará a estado cancelada.",
+    "back": "Volver",
+    "confirm_cancel": "Confirmar cancelación",
+    "cancelling": "Cancelando...",
+    "edit_title": "Editar reserva",
+    "persons": "Personas",
+    "phone": "Teléfono",
+    "notes": "Notas",
+    "save": "Guardar cambios",
+    "saving": "Guardando...",
+    "cancel_edit": "Cancelar"
+  },
+  "Toast": {
+    "booking_ok": "¡Solicitud enviada correctamente!",
+    "senia_ok": "¡Seña pagada! Te esperamos el día del paseo.",
+    "final_ok": "¡Pago final completado. ¡Muchas gracias!",
+    "senia_cancel": "El pago de la seña fue cancelado.",
+    "final_cancel": "El pago final fue cancelado."
+  },
+  "PaseoDetail": {
+    "description": "Descripción",
+    "duration_options": "Opciones de duración",
+    "min": "min",
+    "availability": "Disponibilidad",
+    "book": "Reservar",
+    "login_to_book": "Inicia sesión para reservar"
+  },
+  "ReservaForm": {
+    "select_date": "Seleccioná la fecha",
+    "select_date_sub": "Elegí un día disponible para continuar con tu reserva",
+    "booking_request": "Solicitud de reserva",
+    "duration": "Duración del paseo",
+    "selected_label": "Seleccionado",
+    "full_name": "Nombre completo",
+    "email": "Email",
+    "date_selected": "Fecha seleccionada",
+    "schedule": "Horario",
+    "persons": "Cantidad de personas",
+    "phone": "Teléfono",
+    "notes": "Comentario",
+    "notes_optional": "(opcional)",
+    "notes_placeholder": "¿Algún detalle adicional?",
+    "submit": "Enviar solicitud",
+    "submitting": "Enviando..."
+  },
+  "Login": {
+    "subtitle": "Inicia sesión en tu cuenta",
+    "email": "Email",
+    "password": "Contraseña",
+    "submit": "Iniciar sesión",
+    "submitting": "Entrando...",
+    "no_account": "¿No tienes cuenta?",
+    "register_link": "Regístrate"
+  },
+  "Register": {
+    "subtitle": "Crea tu cuenta",
+    "full_name": "Nombre completo",
+    "email": "Email",
+    "password": "Contraseña",
+    "confirm_password": "Confirmar contraseña",
+    "submit": "Crear cuenta",
+    "submitting": "Creando cuenta...",
+    "have_account": "¿Ya tienes cuenta?",
+    "login_link": "Inicia sesión",
+    "passwords_mismatch": "Las contraseñas no coinciden."
+  }
+}
