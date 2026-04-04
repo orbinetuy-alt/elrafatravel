@@ -18,6 +18,10 @@
     "no_bookings": "You don't have any active bookings yet."
   },
   "Booking": {
+    "pendiente": "Pending",
+    "aceptada": "Accepted",
+    "rechazada": "Rejected",
+    "cancelada": "Cancelled",
     "pending": "Pending",
     "accepted": "Accepted",
     "rejected": "Rejected",
