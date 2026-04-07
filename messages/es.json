@@ -85,7 +85,28 @@
     "submit": "Iniciar sesión",
     "submitting": "Entrando...",
     "no_account": "¿No tienes cuenta?",
-    "register_link": "Regístrate"
+    "register_link": "Regístrate",
+    "forgot_password": "¿Olvidaste tu contraseña?"
+  },
+  "Recovery": {
+    "subtitle": "Recuperá el acceso a tu cuenta",
+    "email": "Email",
+    "submit": "Enviar enlace de recuperación",
+    "submitting": "Enviando...",
+    "success_title": "¡Email enviado!",
+    "success_desc": "Si el email está registrado, recibirás un enlace en los próximos minutos. Revisá tu bandeja de entrada.",
+    "back_to_login": "Volver al login"
+  },
+  "NewPassword": {
+    "subtitle": "Ingresá tu nueva contraseña",
+    "password": "Nueva contraseña",
+    "confirm_password": "Confirmar contraseña",
+    "submit": "Guardar contraseña",
+    "submitting": "Guardando...",
+    "passwords_mismatch": "Las contraseñas no coinciden.",
+    "success_title": "¡Contraseña actualizada!",
+    "success_desc": "Redirigiendo al inicio...",
+    "back_to_login": "Volver al login"
   },
   "Register": {
     "subtitle": "Crea tu cuenta",

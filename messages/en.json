@@ -85,7 +85,28 @@
     "submit": "Sign in",
     "submitting": "Signing in...",
     "no_account": "Don't have an account?",
-    "register_link": "Sign up"
+    "register_link": "Sign up",
+    "forgot_password": "Forgot your password?"
+  },
+  "Recovery": {
+    "subtitle": "Recover access to your account",
+    "email": "Email",
+    "submit": "Send recovery link",
+    "submitting": "Sending...",
+    "success_title": "Email sent!",
+    "success_desc": "If the email is registered, you'll receive a link in the next few minutes. Check your inbox.",
+    "back_to_login": "Back to login"
+  },
+  "NewPassword": {
+    "subtitle": "Enter your new password",
+    "password": "New password",
+    "confirm_password": "Confirm password",
+    "submit": "Save password",
+    "submitting": "Saving...",
+    "passwords_mismatch": "Passwords do not match.",
+    "success_title": "Password updated!",
+    "success_desc": "Redirecting to home...",
+    "back_to_login": "Back to login"
   },
   "Register": {
     "subtitle": "Create your account",

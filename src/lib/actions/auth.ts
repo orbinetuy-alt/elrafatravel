@@ -78,6 +78,32 @@ export async function registroCliente(formData: FormData) {
   redirect('/')
 }
 
+export async function solicitarRecuperacion(formData: FormData) {
+  const supabase = await createClient()
+  const email = formData.get('email') as string
+  const siteUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'
+
+  await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: `${siteUrl}/auth/callback?next=/recuperar-contrasena/nueva`,
+  })
+
+  // Siempre retornar éxito para no revelar si el email existe
+  return { success: true }
+}
+
+export async function actualizarContrasena(formData: FormData) {
+  const supabase = await createClient()
+  const password = formData.get('password') as string
+
+  const { error } = await supabase.auth.updateUser({ password })
+
+  if (error) {
+    return { error: 'No se pudo actualizar la contraseña. El enlace puede haber expirado.' }
+  }
+
+  return { success: true }
+}
+
 export async function logout() {
   const supabase = await createClient()
   await supabase.auth.signOut()

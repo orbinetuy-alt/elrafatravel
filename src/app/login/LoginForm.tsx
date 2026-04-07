@@ -91,6 +91,11 @@ export default function LoginForm({ redirectTo }: LoginFormProps) {
               {t('register_link')}
             </Link>
           </p>
+          <p className="text-center text-sm text-gray-400 mt-2">
+            <Link href="/recuperar-contrasena" className="hover:text-primary hover:underline">
+              {t('forgot_password')}
+            </Link>
+          </p>
         </div>
 
       </div>
