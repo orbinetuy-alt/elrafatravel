@@ -25,6 +25,6 @@ export default async function AgendaPage() {
     .order('nombre')
 
   return (
-    <AgendaClient reservas={reservas ?? []} paseos={paseos ?? []} />
+    <AgendaClient reservas={(reservas ?? []) as any} paseos={paseos ?? []} />
   )
 }

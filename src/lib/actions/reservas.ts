@@ -133,10 +133,10 @@ export async function gestionarSolicitud(reservaId: string, accion: 'aceptada' |
 
   if (error) return { error: 'Error al actualizar la solicitud.' }
 
-  const perfil = reserva.profiles as { nombre: string; email: string } | null
-  const paseo = reserva.paseos as { nombre: string } | null
-  const disp = reserva.disponibilidad as { fecha: string; hora_inicio: string } | null
-  const dur = reserva.paseo_duraciones as { etiqueta: string; duracion_minutos: number; precio: number } | null
+  const perfil = (reserva.profiles as unknown as { nombre: string; email: string }[] | null)?.[0] ?? null
+  const paseo = (reserva.paseos as unknown as { nombre: string }[] | null)?.[0] ?? null
+  const disp = (reserva.disponibilidad as unknown as { fecha: string; hora_inicio: string }[] | null)?.[0] ?? null
+  const dur = (reserva.paseo_duraciones as unknown as { etiqueta: string; duracion_minutos: number; precio: number }[] | null)?.[0] ?? null
 
   if (!perfil || !disp) {
     revalidatePath('/admin')
