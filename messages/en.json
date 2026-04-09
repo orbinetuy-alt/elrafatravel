@@ -15,7 +15,11 @@
     "from": "From",
     "no_tours": "No tours available at this time. Come back soon.",
     "my_bookings": "My bookings",
-    "no_bookings": "You don't have any active bookings yet."
+    "no_bookings": "You have no active bookings yet.",
+    "trust_reviews": "5-star reviews",
+    "trust_private": "Private guide",
+    "trust_flexible": "Flexible schedules",
+    "card_cta": "See details"
   },
   "Booking": {
     "pendiente": "Pending",

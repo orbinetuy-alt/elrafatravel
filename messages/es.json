@@ -15,7 +15,11 @@
     "from": "Desde",
     "no_tours": "No hay paseos disponibles en este momento. Volvé pronto.",
     "my_bookings": "Mis reservas",
-    "no_bookings": "Todavía no tienes solicitudes activas."
+    "no_bookings": "Todavía no tienes solicitudes activas.",
+    "trust_reviews": "Valoraciones 5 estrellas",
+    "trust_private": "Guía privado",
+    "trust_flexible": "Horarios flexibles",
+    "card_cta": "Ver detalles"
   },
   "Booking": {
     "pendiente": "Pendiente",
