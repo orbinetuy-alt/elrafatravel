@@ -61,8 +61,13 @@
     "duration_options": "Opciones de duración",
     "min": "min",
     "availability": "Disponibilidad",
-    "book": "Reservar",
-    "login_to_book": "Inicia sesión para reservar"
+    "book": "Reservar ahora",
+    "login_to_book": "Iniciar sesión para reservar",
+    "from": "Desde",
+    "private_tour": "Paseo privado con guía",
+    "back": "Volver",
+    "no_account": "¿No tenés cuenta?",
+    "sign_up": "Registrate"
   },
   "ReservaForm": {
     "select_date": "Seleccioná la fecha",

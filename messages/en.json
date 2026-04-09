@@ -62,7 +62,12 @@
     "min": "min",
     "availability": "Availability",
     "book": "Book now",
-    "login_to_book": "Sign in to book"
+    "login_to_book": "Sign in to book",
+    "from": "From",
+    "private_tour": "Private tour with guide",
+    "back": "Back",
+    "no_account": "Don't have an account?",
+    "sign_up": "Sign up"
   },
   "ReservaForm": {
     "select_date": "Select a date",
