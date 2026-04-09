@@ -67,7 +67,8 @@
     "private_tour": "Private tour with guide",
     "back": "Back",
     "no_account": "Don't have an account?",
-    "sign_up": "Sign up"
+    "sign_up": "Sign up",
+    "tour_info": "Tour information"
   },
   "ReservaForm": {
     "select_date": "Select a date",

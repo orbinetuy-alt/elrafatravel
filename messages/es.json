@@ -67,7 +67,8 @@
     "private_tour": "Paseo privado con guía",
     "back": "Volver",
     "no_account": "¿No tenés cuenta?",
-    "sign_up": "Registrate"
+    "sign_up": "Registrate",
+    "tour_info": "Información del paseo"
   },
   "ReservaForm": {
     "select_date": "Seleccioná la fecha",
