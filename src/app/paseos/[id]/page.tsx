@@ -197,10 +197,6 @@ export default async function PaseoDetallePage({
     </div>
   )
 }
-
-export const dynamic = 'force-dynamic'
-
-export default async function PaseoDetallePage({
   params,
 }: {
   params: Promise<{ id: string }>
