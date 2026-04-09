@@ -18,6 +18,8 @@ interface Paseo {
   nombre: string
   descripcion: string | null
   imagen_url: string | null
+  ubicacion: string | null
+  modalidad: string | null
   paseo_duraciones?: Duracion[]
 }
 
@@ -121,6 +123,34 @@ export default function PaseoForm({ paseo }: PaseoFormProps) {
           defaultValue={paseo?.descripcion ?? ''}
           placeholder="Describe el recorrido, puntos de interés, duración estimada..."
           className="w-full border border-beige-dark rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary transition resize-none"
+        />
+      </div>
+
+      {/* Ubicación */}
+      <div>
+        <label className="block text-sm font-semibold text-primary mb-1">
+          Ubicación
+        </label>
+        <input
+          name="ubicacion"
+          type="text"
+          defaultValue={paseo?.ubicacion ?? 'Lisboa, Portugal'}
+          placeholder="Ej: Lisboa, Portugal"
+          className="w-full border border-beige-dark rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary transition"
+        />
+      </div>
+
+      {/* Tipo de paseo */}
+      <div>
+        <label className="block text-sm font-semibold text-primary mb-1">
+          Tipo de paseo
+        </label>
+        <input
+          name="modalidad"
+          type="text"
+          defaultValue={paseo?.modalidad ?? 'Paseo privado con guía'}
+          placeholder="Ej: Paseo privado con guía"
+          className="w-full border border-beige-dark rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary transition"
         />
       </div>
 

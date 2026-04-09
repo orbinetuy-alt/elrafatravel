@@ -11,7 +11,7 @@ export default async function EditarPaseoPage({ params }: { params: Promise<{ id
   const adminClient = createAdminClient()
 
   const [{ data: paseo }, { data: duraciones }] = await Promise.all([
-    adminClient.from('paseos').select('id, nombre, descripcion, imagen_url').eq('id', id).single(),
+    adminClient.from('paseos').select('id, nombre, descripcion, imagen_url, ubicacion, modalidad').eq('id', id).single(),
     adminClient.from('paseo_duraciones').select('id, etiqueta, duracion_minutos, precio').eq('paseo_id', id).order('created_at'),
   ])
 

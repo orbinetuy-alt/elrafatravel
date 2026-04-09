@@ -32,6 +32,8 @@ export async function crearPaseo(formData: FormData) {
 
   const nombre = formData.get('nombre') as string
   const descripcion = formData.get('descripcion') as string
+  const ubicacion = formData.get('ubicacion') as string
+  const modalidad = formData.get('modalidad') as string
   const imagenFile = formData.get('imagen') as File | null
   const duracionesRaw = formData.get('duraciones') as string
 
@@ -47,6 +49,8 @@ export async function crearPaseo(formData: FormData) {
     nombre,
     descripcion,
     imagen_url,
+    ubicacion,
+    modalidad,
     activo: true,
   }).select('id').single()
 
@@ -81,6 +85,8 @@ export async function editarPaseo(id: string, formData: FormData) {
 
   const nombre = formData.get('nombre') as string
   const descripcion = formData.get('descripcion') as string
+  const ubicacion = formData.get('ubicacion') as string
+  const modalidad = formData.get('modalidad') as string
   const imagenFile = formData.get('imagen') as File | null
   const imagenActual = formData.get('imagen_actual') as string | null
   const duracionesRaw = formData.get('duraciones') as string
@@ -95,7 +101,7 @@ export async function editarPaseo(id: string, formData: FormData) {
 
   const { error } = await adminClient
     .from('paseos')
-    .update({ nombre, descripcion, imagen_url })
+    .update({ nombre, descripcion, imagen_url, ubicacion, modalidad })
     .eq('id', id)
 
   if (error) {

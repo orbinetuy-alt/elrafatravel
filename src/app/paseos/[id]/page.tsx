@@ -81,7 +81,7 @@ export default async function PaseoDetallePage({
         <div className="absolute bottom-0 left-0 right-0 px-6 pb-7 max-w-6xl mx-auto">
           <p className="text-secondary text-xs font-bold uppercase tracking-widest mb-1.5 flex items-center gap-1.5">
             <MapPin size={12} />
-            Lisboa, Portugal
+            {paseo.ubicacion ?? 'Lisboa, Portugal'}
           </p>
           <h1 className="text-white font-black text-3xl sm:text-5xl uppercase tracking-wider leading-tight drop-shadow-lg">
             {paseo.nombre}
@@ -147,13 +147,13 @@ export default async function PaseoDetallePage({
                   <span className="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
                     <Users size={15} className="text-primary" />
                   </span>
-                  {t('private_tour')}
+                  {paseo.modalidad ?? t('private_tour')}
                 </div>
                 <div className="flex items-center gap-3">
                   <span className="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
                     <MapPin size={15} className="text-primary" />
                   </span>
-                  Lisboa, Portugal
+                  {paseo.ubicacion ?? 'Lisboa, Portugal'}
                 </div>
                 {duraciones && duraciones.length > 0 && (
                   <div className="flex items-center gap-3">
