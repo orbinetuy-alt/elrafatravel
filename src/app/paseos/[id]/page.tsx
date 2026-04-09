@@ -57,7 +57,7 @@ export default async function PaseoDetallePage({
             src={paseo.imagen_url}
             alt={paseo.nombre}
             fill
-            className="object-cover object-center"
+            className="object-cover object-center scale-105 blur-[3px]"
             priority
           />
         ) : (
@@ -66,7 +66,7 @@ export default async function PaseoDetallePage({
           </div>
         )}
         {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-linear-to-t from-black/75 via-black/20 to-black/10" />
+        <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/30 to-black/20" />
 
         {/* Back link */}
         <Link
