@@ -10,14 +10,15 @@ export default async function EditarPaseoPage({ params }: { params: Promise<{ id
   const { id } = await params
   const adminClient = createAdminClient()
 
-  const [{ data: paseo }, { data: duraciones }] = await Promise.all([
-    adminClient.from('paseos').select('id, nombre, descripcion, imagen_url, ubicacion, modalidad').eq('id', id).single(),
+  const [{ data: paseo }, { data: duraciones }, { data: preciosPersona }] = await Promise.all([
+    adminClient.from('paseos').select('id, nombre, descripcion, imagen_url, ubicacion, modalidad, tipo, hora_salida').eq('id', id).single(),
     adminClient.from('paseo_duraciones').select('id, etiqueta, duracion_minutos, precio').eq('paseo_id', id).order('created_at'),
+    adminClient.from('paseo_precios_persona').select('id, min_personas, max_personas, precio').eq('paseo_id', id).order('min_personas'),
   ])
 
   if (!paseo) notFound()
 
-  const paseoConDuraciones = { ...paseo, paseo_duraciones: duraciones ?? [] }
+  const paseoConDatos = { ...paseo, paseo_duraciones: duraciones ?? [], paseo_precios_persona: preciosPersona ?? [] }
 
   return (
     <div className="space-y-6">
@@ -43,7 +44,7 @@ export default async function EditarPaseoPage({ params }: { params: Promise<{ id
 
       {/* Formulario */}
       <div className="bg-white rounded-2xl border border-beige-dark p-8">
-        <PaseoForm paseo={paseoConDuraciones} />
+        <PaseoForm paseo={paseoConDatos} />
       </div>
 
     </div>

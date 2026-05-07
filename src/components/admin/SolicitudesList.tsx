@@ -17,6 +17,7 @@ interface Solicitud {
   profiles: { nombre: string; email: string } | null
   disponibilidad: { fecha: string; hora_inicio: string } | null
   paseo_duraciones: { etiqueta: string; duracion_minutos: number; precio: number } | null
+  paseo_precios_persona: { min_personas: number; max_personas: number; precio: number } | null
 }
 
 interface SolicitudesListProps {
@@ -158,6 +159,14 @@ export default function SolicitudesList({ solicitudes }: SolicitudesListProps) {
                   <p className="text-xs text-gray-400 flex items-center justify-end gap-1">
                     <Clock size={11} />
                     {s.paseo_duraciones.etiqueta} · {s.paseo_duraciones.duracion_minutos} min
+                  </p>
+                </>
+              ) : s.paseo_precios_persona ? (
+                <>
+                  <p className="text-secondary font-bold text-lg">€{Number(s.paseo_precios_persona.precio).toFixed(2)}</p>
+                  <p className="text-xs text-gray-400 flex items-center justify-end gap-1">
+                    <Users size={11} />
+                    {s.num_personas} pers. · tarifa {s.paseo_precios_persona.min_personas}–{s.paseo_precios_persona.max_personas}
                   </p>
                 </>
               ) : (

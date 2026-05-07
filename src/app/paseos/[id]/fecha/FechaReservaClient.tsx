@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useActionState } from 'react'
-import { CalendarDays, Clock, Euro } from 'lucide-react'
+import { CalendarDays, Clock, Euro, Users } from 'lucide-react'
 import CalendarioMes from '@/components/CalendarioMes'
 import { crearReserva } from '@/lib/actions/reservas'
 import { useTranslations } from 'next-intl'
@@ -13,11 +13,20 @@ interface Duracion {
   precio: number
 }
 
+interface PrecioPersona {
+  id: string
+  min_personas: number
+  max_personas: number
+  precio: number
+}
+
 interface FechaReservaClientProps {
   paseoId: string
   diasBloqueados: string[]
   horarios: { id: string; hora: string }[]
   duraciones: Duracion[]
+  preciosPersona: PrecioPersona[]
+  tipo: 'tuk_tuk' | 'excursion'
   userNombre: string
   userEmail: string
 }
@@ -36,11 +45,15 @@ export default function FechaReservaClient({
   paseoId,
   diasBloqueados,
   duraciones,
+  preciosPersona,
+  tipo,
   userNombre,
   userEmail,
 }: FechaReservaClientProps) {
   const [fechaSeleccionada, setFechaSeleccionada] = useState<string | null>(null)
   const [duracionId, setDuracionId] = useState<string>(duraciones[0]?.id ?? '')
+  const [tierSeleccionado, setTierSeleccionado] = useState<PrecioPersona | null>(preciosPersona[0] ?? null)
+  const [numPersonas, setNumPersonas] = useState<number>(preciosPersona[0]?.min_personas ?? 1)
   const t = useTranslations('ReservaForm')
 
   const crearReservaConId = crearReserva.bind(null, paseoId)
@@ -83,11 +96,17 @@ export default function FechaReservaClient({
           <form action={formAction} className="space-y-5">
             {/* Hidden: fecha seleccionada */}
             <input type="hidden" name="fecha" value={fechaSeleccionada} />
-            {/* Hidden: duración seleccionada */}
-            <input type="hidden" name="duracion_id" value={duracionId} />
+            {/* Hidden: duración seleccionada (tuk-tuk) */}
+            {tipo === 'tuk_tuk' && (
+              <input type="hidden" name="duracion_id" value={duracionId} />
+            )}
+            {/* Hidden: tier de precio (excursión) */}
+            {tipo === 'excursion' && tierSeleccionado && (
+              <input type="hidden" name="precio_persona_id" value={tierSeleccionado.id} />
+            )}
 
-            {/* Duración del paseo */}
-            {duraciones.length > 0 && (
+            {/* Duración del paseo (solo tuk-tuk) */}
+            {tipo === 'tuk_tuk' && duraciones.length > 0 && (
               <div>
                 <label className="block text-sm font-semibold text-primary mb-2">
                   {t('duration')} <span className="text-red-400">*</span>
@@ -121,6 +140,21 @@ export default function FechaReservaClient({
                     {t('selected_label')}: {duracionSeleccionada.etiqueta} · €{Number(duracionSeleccionada.precio).toFixed(2)}
                   </p>
                 )}
+              </div>
+            )}
+
+            {/* Hora de salida fija (excursión) */}
+            {tipo === 'excursion' && horaSalida && (
+              <div>
+                <label className="block text-sm font-semibold text-primary mb-1">
+                  Hora de salida
+                </label>
+                <div className="flex items-center gap-2 w-full border border-beige-dark rounded-lg px-4 py-3 bg-beige">
+                  <Clock size={16} className="text-primary" />
+                  <span className="text-sm text-primary font-semibold">{horaSalida}</span>
+                  <span className="text-xs text-gray-400 ml-1">— Hora fija de salida</span>
+                </div>
+                <input type="hidden" name="hora" value={horaSalida} />
               </div>
             )}
 
@@ -163,6 +197,21 @@ export default function FechaReservaClient({
               />
             </div>
 
+            {/* Hora de salida fija (excursión) */}
+            {tipo === 'excursion' && horaSalida && (
+              <div>
+                <label className="block text-sm font-semibold text-primary mb-1">
+                  Hora de salida
+                </label>
+                <div className="flex items-center gap-2 w-full border border-beige-dark rounded-lg px-4 py-3 bg-beige">
+                  <Clock size={16} className="text-primary" />
+                  <span className="text-sm text-primary font-semibold">{horaSalida}</span>
+                  <span className="text-xs text-gray-400 ml-1">— Hora fija de salida</span>
+                </div>
+                <input type="hidden" name="hora" value={horaSalida} />
+              </div>
+            )}
+
             {/* Horario */}
             <div>
               <label className="block text-sm font-semibold text-primary mb-1">
@@ -181,15 +230,67 @@ export default function FechaReservaClient({
               <label className="block text-sm font-semibold text-primary mb-1">
                 {t('persons')}
               </label>
-              <input
-                type="number"
-                name="num_personas"
-                min={1}
-                max={3}
-                defaultValue={1}
-                required
-                className="w-full border border-beige-dark rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary transition"
-              />
+              {tipo === 'excursion' && preciosPersona.length > 0 ? (
+                <div className="space-y-3">
+                  {/* Selección de rango */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    {preciosPersona.map(pp => (
+                      <button
+                        key={pp.id}
+                        type="button"
+                        onClick={() => {
+                          setTierSeleccionado(pp)
+                          setNumPersonas(pp.min_personas)
+                        }}
+                        className={`flex items-center justify-between px-4 py-3 rounded-xl border text-sm transition ${
+                          tierSeleccionado?.id === pp.id
+                            ? 'border-primary bg-primary/5 text-primary font-semibold'
+                            : 'border-beige-dark bg-white text-gray-600 hover:border-primary/40'
+                        }`}
+                      >
+                        <span className="flex items-center gap-2">
+                          <Users size={14} className={tierSeleccionado?.id === pp.id ? 'text-primary' : 'text-gray-400'} />
+                          {pp.min_personas}–{pp.max_personas} personas
+                        </span>
+                        <span className={`flex items-center gap-0.5 font-bold ${
+                          tierSeleccionado?.id === pp.id ? 'text-secondary' : 'text-gray-500'
+                        }`}>
+                          <Euro size={13} />
+                          {Number(pp.precio).toFixed(2)}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                  {/* Número exacto dentro del rango */}
+                  {tierSeleccionado && (
+                    <div>
+                      <label className="block text-xs text-gray-500 mb-1">
+                        Número exacto de personas ({tierSeleccionado.min_personas}–{tierSeleccionado.max_personas})
+                      </label>
+                      <input
+                        type="number"
+                        name="num_personas"
+                        min={tierSeleccionado.min_personas}
+                        max={tierSeleccionado.max_personas}
+                        value={numPersonas}
+                        onChange={e => setNumPersonas(parseInt(e.target.value) || tierSeleccionado.min_personas)}
+                        required
+                        className="w-full border border-beige-dark rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary transition"
+                      />
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <input
+                  type="number"
+                  name="num_personas"
+                  min={1}
+                  max={3}
+                  defaultValue={1}
+                  required
+                  className="w-full border border-beige-dark rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary transition"
+                />
+              )}
             </div>
 
             {/* Teléfono */}

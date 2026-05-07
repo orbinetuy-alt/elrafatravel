@@ -37,7 +37,8 @@ export default async function AdminDashboard() {
       paseos ( nombre ),
       profiles ( nombre, email ),
       disponibilidad ( fecha, hora_inicio ),
-      paseo_duraciones ( etiqueta, duracion_minutos, precio )
+      paseo_duraciones ( etiqueta, duracion_minutos, precio ),
+      paseo_precios_persona ( min_personas, max_personas, precio )
     `)
     .eq('estado', 'pendiente')
     .order('created_at', { ascending: true })

@@ -22,11 +22,13 @@ export default async function FechaPage({
     { data: diasBloqueados },
     { data: horarios },
     { data: duraciones },
+    { data: preciosPersona },
   ] = await Promise.all([
-    adminClient.from('paseos').select('id, nombre').eq('id', id).eq('activo', true).single(),
+    adminClient.from('paseos').select('id, nombre, tipo').eq('id', id).eq('activo', true).single(),
     adminClient.from('dias_bloqueados').select('fecha').eq('paseo_id', id),
     adminClient.from('horarios').select('id, hora').eq('paseo_id', id).order('hora'),
     adminClient.from('paseo_duraciones').select('id, etiqueta, duracion_minutos, precio').eq('paseo_id', id).order('created_at'),
+    adminClient.from('paseo_precios_persona').select('id, min_personas, max_personas, precio').eq('paseo_id', id).order('min_personas'),
   ])
 
   if (!paseo) notFound()
@@ -49,6 +51,8 @@ export default async function FechaPage({
           diasBloqueados={fechasBloqueadas}
           horarios={horarios ?? []}
           duraciones={duraciones ?? []}
+          preciosPersona={preciosPersona ?? []}
+          tipo={(paseo.tipo as 'tuk_tuk' | 'excursion') ?? 'tuk_tuk'}
           userNombre={userInfo.nombre}
           userEmail={userInfo.email}
         />

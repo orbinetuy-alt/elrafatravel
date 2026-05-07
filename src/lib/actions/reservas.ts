@@ -24,6 +24,7 @@ export async function crearReserva(paseoId: string, prevState: unknown, formData
   const telefono = formData.get('telefono') as string
   const notas = (formData.get('notas') as string) || null
   const duracionId = (formData.get('duracion_id') as string) || null
+  const precioPersonaId = (formData.get('precio_persona_id') as string) || null
 
   if (!fecha || !hora || !numPersonas || !telefono) {
     return { error: 'Por favor completá todos los campos obligatorios.' }
@@ -66,6 +67,7 @@ export async function crearReserva(paseoId: string, prevState: unknown, formData
       notas,
       telefono,
       duracion_id: duracionId,
+      precio_persona_id: precioPersonaId,
     })
 
   if (errReserva) return { error: 'Error al guardar la reserva. Intentá de nuevo.' }
@@ -119,7 +121,8 @@ export async function gestionarSolicitud(reservaId: string, accion: 'aceptada' |
       paseos ( nombre ),
       profiles ( nombre, email ),
       disponibilidad ( fecha, hora_inicio ),
-      paseo_duraciones ( etiqueta, duracion_minutos, precio )
+      paseo_duraciones ( etiqueta, duracion_minutos, precio ),
+      paseo_precios_persona ( min_personas, max_personas, precio )
     `)
     .eq('id', reservaId)
     .single()
@@ -137,6 +140,7 @@ export async function gestionarSolicitud(reservaId: string, accion: 'aceptada' |
   const paseo = (reserva.paseos as unknown as { nombre: string }[] | null)?.[0] ?? null
   const disp = (reserva.disponibilidad as unknown as { fecha: string; hora_inicio: string }[] | null)?.[0] ?? null
   const dur = (reserva.paseo_duraciones as unknown as { etiqueta: string; duracion_minutos: number; precio: number }[] | null)?.[0] ?? null
+  const precioPersona = (reserva.paseo_precios_persona as unknown as { min_personas: number; max_personas: number; precio: number }[] | null)?.[0] ?? null
 
   if (!perfil || !disp) {
     revalidatePath('/admin')
@@ -148,9 +152,12 @@ export async function gestionarSolicitud(reservaId: string, accion: 'aceptada' |
   const hora = disp.hora_inicio.slice(0, 5)
 
   try {
-    if (accion === 'aceptada' && dur) {
-      const precioTotal = dur.precio
+    if (accion === 'aceptada' && (dur || precioPersona)) {
+      const precioTotal = dur ? dur.precio : precioPersona!.precio
       const precioSenia = precioTotal / 2
+      const descripcionProducto = dur
+        ? `50% del paseo del ${fechaFormateada} a las ${hora} (${dur.etiqueta})`
+        : `50% de la excursión del ${fechaFormateada} para ${reserva.num_personas} ${reserva.num_personas === 1 ? 'persona' : 'personas'} (tarifa ${precioPersona!.min_personas}–${precioPersona!.max_personas} pers.)`
 
       // Crear Stripe Checkout Session para la seña
       const session = await stripe.checkout.sessions.create({
@@ -162,7 +169,7 @@ export async function gestionarSolicitud(reservaId: string, accion: 'aceptada' |
             unit_amount: Math.round(precioSenia * 100),
             product_data: {
               name: `Seña — ${paseo?.nombre ?? 'Paseo'}`,
-              description: `50% del paseo del ${fechaFormateada} a las ${hora} (${dur.etiqueta})`,
+              description: descripcionProducto,
             },
           },
           quantity: 1,
@@ -190,7 +197,7 @@ export async function gestionarSolicitud(reservaId: string, accion: 'aceptada' |
         fecha: fechaFormateada,
         hora,
         personas: reserva.num_personas,
-        duracion: dur.etiqueta,
+        duracion: dur ? dur.etiqueta : `${reserva.num_personas} pers. (tarifa ${precioPersona!.min_personas}–${precioPersona!.max_personas})`,
         precioTotal,
         precioSenia,
         stripeUrl: session.url!,
