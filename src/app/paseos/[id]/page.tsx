@@ -25,12 +25,14 @@ export default async function PaseoDetallePage({
     { data: diasBloqueados },
     { data: { user } },
     { data: duraciones },
+    { data: preciosPersona },
   ] = await Promise.all([
     adminClient.from('paseos').select('*').eq('id', id).eq('activo', true).single(),
     adminClient.from('paseo_imagenes').select('url').eq('paseo_id', id).order('orden'),
     adminClient.from('dias_bloqueados').select('fecha').eq('paseo_id', id),
     supabase.auth.getUser(),
     adminClient.from('paseo_duraciones').select('id, etiqueta, duracion_minutos, precio').eq('paseo_id', id).order('created_at'),
+    adminClient.from('paseo_precios_persona').select('id, min_personas, max_personas, precio').eq('paseo_id', id).order('min_personas'),
   ])
 
   if (!paseo) notFound()
@@ -42,9 +44,9 @@ export default async function PaseoDetallePage({
 
   const fechasBloqueadas = (diasBloqueados ?? []).map(d => d.fecha as string)
   const userInfo = user ? { email: user.email!, nombre: user.user_metadata?.nombre } : null
-  const precioMin = duraciones && duraciones.length > 0
-    ? Math.min(...duraciones.map(d => Number(d.precio)))
-    : Number(paseo.precio)
+  const precioMin = paseo.tipo === 'excursion'
+    ? (preciosPersona && preciosPersona.length > 0 ? Math.min(...preciosPersona.map(p => Number(p.precio))) : 0)
+    : (duraciones && duraciones.length > 0 ? Math.min(...duraciones.map(d => Number(d.precio))) : Number(paseo.precio))
 
   return (
     <div className="min-h-screen bg-beige pb-24">
@@ -111,8 +113,32 @@ export default async function PaseoDetallePage({
               </div>
             )}
 
+            {/* Precios por persona (excursión) */}
+            {paseo.tipo === 'excursion' && preciosPersona && preciosPersona.length > 0 && (
+              <div className="bg-white rounded-2xl border border-beige-dark p-6">
+                <h2 className="text-primary font-bold text-xs uppercase tracking-wider mb-4 flex items-center gap-2">
+                  <span className="w-4 h-0.5 bg-secondary inline-block" />
+                  Tarifas
+                </h2>
+                <div className="flex flex-col gap-2">
+                  {preciosPersona.map(p => (
+                    <div key={p.id} className="flex items-center justify-between bg-beige rounded-xl px-4 py-3">
+                      <span className="flex items-center gap-2 text-sm font-semibold text-primary">
+                        <Users size={14} className="text-secondary" />
+                        {p.min_personas}–{p.max_personas} personas
+                      </span>
+                      <span className="flex items-center gap-0.5 text-secondary font-black text-base">
+                        <Euro size={13} />
+                        {Number(p.precio).toFixed(2)}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* Duraciones */}
-            {duraciones && duraciones.length > 0 && (
+            {paseo.tipo !== 'excursion' && duraciones && duraciones.length > 0 && (
               <div className="bg-white rounded-2xl border border-beige-dark p-6">
                 <h2 className="text-primary font-bold text-xs uppercase tracking-wider mb-4 flex items-center gap-2">
                   <span className="w-4 h-0.5 bg-secondary inline-block" />
