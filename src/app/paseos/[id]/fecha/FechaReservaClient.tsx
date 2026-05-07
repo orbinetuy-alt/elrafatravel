@@ -182,21 +182,6 @@ export default function FechaReservaClient({
               />
             </div>
 
-            {/* Hora de salida fija (excursión) */}
-            {tipo === 'excursion' && horaSalida && (
-              <div>
-                <label className="block text-sm font-semibold text-primary mb-1">
-                  Hora de salida
-                </label>
-                <div className="flex items-center gap-2 w-full border border-beige-dark rounded-lg px-4 py-3 bg-beige">
-                  <Clock size={16} className="text-primary" />
-                  <span className="text-sm text-primary font-semibold">{horaSalida}</span>
-                  <span className="text-xs text-gray-400 ml-1">— Hora fija de salida</span>
-                </div>
-                <input type="hidden" name="hora" value={horaSalida} />
-              </div>
-            )}
-
             {/* Horario */}
             <div>
               <label className="block text-sm font-semibold text-primary mb-1">
