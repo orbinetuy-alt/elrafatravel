@@ -20,7 +20,7 @@ export default async function HomePage() {
   const [{ data: paseos }, misSolicitudesResult] = await Promise.all([
     adminClient
       .from('paseos')
-      .select('*, paseo_duraciones(precio)')
+      .select('*, paseo_duraciones(precio), paseo_precios_persona(precio)')
       .eq('activo', true)
       .order('created_at', { ascending: false }),
     user
@@ -181,7 +181,9 @@ export default async function HomePage() {
                       <p className="text-secondary font-black text-xl flex items-center gap-0.5">
                         <Euro size={15} />
                         {(() => {
-                          const precios = (paseo.paseo_duraciones as { precio: number }[] | null)?.map(d => d.precio) ?? []
+                          const precios = (paseo as any).tipo === 'excursion'
+                            ? ((paseo as any).paseo_precios_persona as { precio: number }[] | null)?.map((p: { precio: number }) => p.precio) ?? []
+                            : (paseo.paseo_duraciones as { precio: number }[] | null)?.map(d => d.precio) ?? []
                           if (precios.length === 0) return '—'
                           return Math.min(...precios).toFixed(2)
                         })()}
